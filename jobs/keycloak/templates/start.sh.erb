@@ -2,10 +2,12 @@
 
 source /var/vcap/packages/openjdk/bosh/runtime.env
 
-export QUARKUS_TRANSACTION_MANAGER_OBJECT_STORE_DIRECTORY=/var/vcap/store/keycloak
+#export QUARKUS_TRANSACTION_MANAGER_OBJECT_STORE_DIRECTORY=/var/vcap/store/keycloak
+export QUARKUS_PACKAGE_OUTPUT_DIRECTORY=/var/vcap/data/keycloak/build
 
 exec /var/vcap/packages/keycloak/bin/kc.sh \
     --config-file /var/vcap/jobs/keycloak/config/keycloak.conf \
+    -Djava.io.tmpdir=/var/vcap/data/keycloak/tmp \
     start --optimized \
     --bootstrap-admin-username <%= p("admin.username") %> \
     --bootstrap-admin-password <%= p("admin.password") %>

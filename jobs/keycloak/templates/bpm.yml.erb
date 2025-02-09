@@ -1,8 +1,9 @@
 processes:
 - name: keycloak
   executable: /var/vcap/jobs/keycloak/bin/start
-  workdir: /var/vcap/store/keycloak
+  #workdir: /var/vcap/store/keycloak
 
+  ephemeral_disk: true
   persistent_disk: true
 
   capabilities:
