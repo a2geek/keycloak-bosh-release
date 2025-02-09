@@ -1,3 +1,6 @@
 set -ex
 
+mkdir ${BOSH_INSTALL_TARGET}/bosh
+cp openjdk/*.env ${BOSH_INSTALL_TARGET}/bosh
+
 tar xzvf openjdk/OpenJDK*.tar.gz --strip-components=1 --directory=${BOSH_INSTALL_TARGET}
