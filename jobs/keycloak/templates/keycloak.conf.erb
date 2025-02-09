@@ -1,0 +1,17 @@
+# Database
+db=<%= p("database.type") %>
+db-username=<%= p("database.user") %>
+db-password=<%= p("database.password") %>
+db-url=<%= p("database.url") %>
+
+# Observability
+health-enabled=true
+#metrics-enabled=true
+
+# HTTP
+hostname=<%= p("hostname") %>
+https-port=443
+https-certificate-file=/var/vcap/jobs/keycloak/config/public.pem
+https-certificate-key-file=/var/vcap/jobs/keycloak/config/private.pem
+#proxy=reencrypt
+#spi-sticky-session-encoder-infinispan-should-attach-route=false

@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+source /var/vcap/packages/openjdk/bosh/runtime.env
+
+file=/var/vcap/packages/keycloak/prestart-done
+if [ ! -f $file ]
+then
+    exec /var/vcap/packages/keycloak/bin/kc.sh \
+        --config-file /var/vcap/jobs/keycloak/config/keycloak.conf \
+        build
+    touch $file
+else
+    echo "Pre-start already ran."
+fi

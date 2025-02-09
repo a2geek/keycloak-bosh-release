@@ -8,6 +8,10 @@ releases:
   version: "1.4.1"
   url: "https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=1.4.1"
   sha1: "1d2f22a5d024cb34f6d7d2da3f1ee95e4a8cdd61"
+- name: "postgres"
+  version: "53.0.1"
+  url: "https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=53.0.1"
+  sha1: "c04b19c87f03a4a73c17add1013ed864aeca5af9"
 
 instance_groups:
 - name: keycloak
@@ -17,11 +21,37 @@ instance_groups:
   vm_type: default
   stemcell: default
   persistent_disk: 10240
+  tags:
+    fqdns: ((keycloak_server_domain))
   jobs:
   - name: bpm
     release: bpm
   - name: keycloak
     release: keycloak
+    properties:
+      database:
+        type: postgres
+        user: keycloak
+        password: ((keycloak_postgres_password))
+        url: jdbc:postgresql://127.0.0.1:5432/keycloakdb
+      hostname: ((keycloak_server_domain))
+      https:
+        certificate: ((keycloak_web.certificate))
+        private_key: ((keycloak_web.private_key))
+      admin:
+        username: admin
+        password: ((bootstrap_admin_password))
+  - name: postgres
+    release: postgres
+    properties:
+      databases:
+      databases:
+        databases:
+        - name: keycloakdb
+          citext: false
+        roles:
+        - name: keycloak
+          password: ((keycloak_postgres_password))
 
 variables:
 - name: keycloak_ca
@@ -36,6 +66,10 @@ variables:
     ca: keycloak_ca
     common_name: ((keycloak_server_domain))
     alternative_names: [((keycloak_server_domain)), keycloak.internal]
+- name: keycloak_postgres_password
+  type: password
+- name: bootstrap_admin_password
+  type: password
 
 stemcells:
 - alias: default

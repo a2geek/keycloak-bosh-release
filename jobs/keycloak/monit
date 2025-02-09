@@ -1,0 +1,5 @@
+check process keycloak
+  with pidfile /var/vcap/sys/run/bpm/keycloak/keycloak.pid
+  start program "/var/vcap/jobs/bpm/bin/bpm start keycloak"
+  stop program "/var/vcap/jobs/bpm/bin/bpm stop keycloak"
+  group vcap

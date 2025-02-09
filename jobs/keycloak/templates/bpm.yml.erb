@@ -1,0 +1,9 @@
+processes:
+- name: keycloak
+  executable: /var/vcap/jobs/keycloak/bin/start
+  workdir: /var/vcap/store/keycloak
+
+  persistent_disk: true
+
+  capabilities:
+  - NET_BIND_SERVICE
