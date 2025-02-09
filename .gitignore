@@ -12,3 +12,6 @@ releases/**/*.tgz
 *~
 *#
 #*
+
+# Local/Dev configuration
+vars.yml

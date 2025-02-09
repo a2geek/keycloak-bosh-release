@@ -1,0 +1,10 @@
+---
+name: keycloak
+
+templates: {}
+
+packages:
+- keycloak
+- openjdk
+
+properties: {}

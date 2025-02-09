@@ -1,0 +1,50 @@
+---
+name: keycloak
+
+releases:
+- name: keycloak
+  version: latest
+- name: "bpm"
+  version: "1.4.1"
+  url: "https://bosh.io/d/github.com/cloudfoundry/bpm-release?v=1.4.1"
+  sha1: "1d2f22a5d024cb34f6d7d2da3f1ee95e4a8cdd61"
+
+instance_groups:
+- name: keycloak
+  instances: 1
+  azs: [z1, z2]
+  networks: [{name: default}]
+  vm_type: default
+  stemcell: default
+  persistent_disk: 10240
+  jobs:
+  - name: bpm
+    release: bpm
+  - name: keycloak
+    release: keycloak
+
+variables:
+- name: keycloak_ca
+  type: certificate
+  options:
+    is_ca: true
+    common_name: keycloak_ca
+    duration: 1095
+- name: keycloak_web
+  type: certificate
+  options:
+    ca: keycloak_ca
+    common_name: ((keycloak_server_domain))
+    alternative_names: [((keycloak_server_domain)), keycloak.internal]
+
+stemcells:
+- alias: default
+  os: ubuntu-jammy
+  version: latest
+
+update:
+  canaries: 1
+  canary_watch_time: 10000-600000
+  max_in_flight: 1
+  update_watch_time: 10000-600000
+  serial: false
