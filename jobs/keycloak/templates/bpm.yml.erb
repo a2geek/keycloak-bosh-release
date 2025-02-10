@@ -1,10 +1,12 @@
 processes:
 - name: keycloak
   executable: /var/vcap/jobs/keycloak/bin/start
-  #workdir: /var/vcap/store/keycloak
+  workdir: /var/vcap/store/kc
 
-  ephemeral_disk: true
-  persistent_disk: true
+  additional_volumes:
+  - path: /var/vcap/store/kc
+    writable: true
+    allow_executions: true
 
   capabilities:
   - NET_BIND_SERVICE

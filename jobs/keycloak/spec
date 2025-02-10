@@ -4,7 +4,6 @@ name: keycloak
 templates:
   bpm.yml.erb: config/bpm.yml
   keycloak.conf.erb: config/keycloak.conf
-  pre-start.sh.erb: bin/pre-start
   private.pem.erb: config/private.pem
   public.pem.erb: config/public.pem
   start.sh.erb: bin/start

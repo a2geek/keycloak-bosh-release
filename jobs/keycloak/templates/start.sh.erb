@@ -2,12 +2,28 @@
 
 source /var/vcap/packages/openjdk/bosh/runtime.env
 
-#export QUARKUS_TRANSACTION_MANAGER_OBJECT_STORE_DIRECTORY=/var/vcap/store/keycloak
-export QUARKUS_PACKAGE_OUTPUT_DIRECTORY=/var/vcap/data/keycloak/build
+store_dir=/var/vcap/store/kc
+package_dir=/var/vcap/packages/keycloak
 
-exec /var/vcap/packages/keycloak/bin/kc.sh \
+cd $store_dir
+
+if [ ! -f $store_dir/version.txt ] || [ "$(cat $store_dir/version.txt)" != "$(cat $package_dir/version.txt)" ]
+then
+    echo "Application will be updated and build triggered."
+    rm -rf $store_dir/{bin,conf,lib,providers,themes}
+    cp -r $package_dir/{bin,conf,lib,providers,themes} $store_dir
+
+    bin/kc.sh \
+        --config-file /var/vcap/jobs/keycloak/config/keycloak.conf \
+        build
+
+    cp $package_dir/version.txt $store_dir
+else
+    echo "Application is current."
+fi
+
+exec bin/kc.sh \
     --config-file /var/vcap/jobs/keycloak/config/keycloak.conf \
-    -Djava.io.tmpdir=/var/vcap/data/keycloak/tmp \
     start --optimized \
     --bootstrap-admin-username <%= p("admin.username") %> \
     --bootstrap-admin-password <%= p("admin.password") %>
