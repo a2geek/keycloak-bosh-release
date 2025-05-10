@@ -26,4 +26,4 @@ exec bin/kc.sh \
     --config-file /var/vcap/jobs/keycloak/config/keycloak.conf \
     start --optimized \
     --bootstrap-admin-username <%= p("admin.username") %> \
-    --bootstrap-admin-password <%= p("admin.password") %>
+    --bootstrap-admin-password "changeme"

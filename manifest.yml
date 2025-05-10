@@ -40,11 +40,9 @@ instance_groups:
         private_key: ((keycloak_web.private_key))
       admin:
         username: admin
-        password: ((bootstrap_admin_password))
   - name: postgres
     release: postgres
     properties:
-      databases:
       databases:
         databases:
         - name: keycloakdb
@@ -67,8 +65,6 @@ variables:
     common_name: ((keycloak_server_domain))
     alternative_names: [((keycloak_server_domain)), keycloak.internal]
 - name: keycloak_postgres_password
-  type: password
-- name: bootstrap_admin_password
   type: password
 
 stemcells:
